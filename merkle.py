@@ -10,9 +10,7 @@ class Merkle:
 
 	def __init__(self, strings):
 		self.tree = strings
-
-		print self.tree
-
+		
 		if len(self.tree) % 2 == 1:
 			self.tree.append(self.tree[-1])
 
