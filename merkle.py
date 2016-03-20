@@ -2,23 +2,36 @@
 
 import hashlib
 
-def md5(chunk):
-	hash_md5 = hashlib.md5()
-	hash_md5.update(chunk)
+"""
+Merkle Tree
+"""
+class Merkle:
+	tree = []
 
-	return hash_md5.hexdigest()
+	def __init__(self, strings):
+		self.tree = strings
 
-tree = [ 'a', 'b', 'c', 'd', 'e', 'f' ]
+		print self.tree
 
-if tree % 2 == 1:
-  tree.append(tree[-1])
+		if len(self.tree) % 2 == 1:
+			self.tree.append(self.tree[-1])
 
-while (len(tree) > 1):
-	new_tree = []
+	def md5(self, chunk):
+		hash_md5 = hashlib.md5()
+		hash_md5.update(chunk)
 
-	for i in xrange(len(tree) / 2):
-	  new_tree.append(md5(tree[i * 2]) + md5(tree[i * 2 + 1]))
+		return hash_md5.hexdigest()
 
-	tree = new_tree
+	def merkle(self):
+		while (len(self.tree) > 1):
+			new_tree = []
 
-print tree
+			for i in xrange(len(self.tree) / 2):
+				new_tree.append(self.md5(self.tree[i * 2]) + self.md5(self.tree[i * 2 + 1]))
+
+			self.tree = new_tree
+
+		return self.tree
+
+m = Merkle([ 'a', 'b', 'c', 'd', 'e', 'f' ])
+print m.merkle()
